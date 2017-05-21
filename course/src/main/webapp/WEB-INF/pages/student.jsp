@@ -7,6 +7,9 @@
 <head>
     <title>Student's page</title>
     <style>
+        body {
+            font-family: "Times New Roman", serif;
+        }
         .tg {
             border-collapse: collapse;
             border-spacing: 0;

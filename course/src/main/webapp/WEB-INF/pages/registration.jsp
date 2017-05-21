@@ -7,6 +7,9 @@
 <head>
     <title>Registration</title>
     <style>
+        body {
+            font-family: "Times New Roman", serif;
+        }
         td {
             padding: 8px;
             margin: 5px;

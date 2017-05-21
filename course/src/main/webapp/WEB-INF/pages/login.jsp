@@ -5,6 +5,9 @@
     <title>Login</title>
 </head>
 <style>
+    body {
+        font-family: "Times New Roman", serif;
+    }
     table {
         padding-top: 175px;
     }
