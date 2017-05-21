@@ -1,0 +1,15 @@
+If you catch exception "Cannot load JDBC driver class 'oracle.jdbc.driver.OracleDriver' java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver"
+Run command line and enter:
+java -cp <path-to>\$name_oracleDriver.jar oracle.jdbc.OracleDriver
+For example:
+java -cp C:\Users\user\.m2\repository\com\oracle\ojdbc6\11.2.0.3\ojdbc6-11.2.0.3.jar oracle.jdbc.OracleDriver
+
+###########################################################################################################################
+
+If you catch exception "java.sql.SQLException: ORA-00604: error occurred at recursive SQL level 1
+                        ORA-12705: Cannot access NLS data files or invalid environment specified"
+You need add to VM options on Tomcat configurations add parameter
+-Duser.region=US
+
+###########################################################################################################################
+
