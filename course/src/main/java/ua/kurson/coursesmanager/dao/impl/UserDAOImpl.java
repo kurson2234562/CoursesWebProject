@@ -58,7 +58,6 @@ public class UserDAOImpl implements UserDAO {
     public Users getUserById(Long id) {
         Session session = this.sessionFactory.getCurrentSession();
         Users user = (Users) session.load(Users.class, id);
-
         return user;
     }
 
@@ -72,11 +71,13 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void deleteUserById(Long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Users users = (Users) session.load(Users.class, new Long(id));
-        if (users != null) {
-            session.delete(users);
+        Users user = (Users) session.load(Users.class, new Long(id));
+        if (user != null) {
+            user.setStatesByIdState(null);
+            user.setRolesByIdRole(null);
+            session.delete(user);
         }
-        logger.info("User successfully deleted. Course details: " + users);
+        logger.info("User successfully deleted. Course details: " + user);
     }
 
     @Override

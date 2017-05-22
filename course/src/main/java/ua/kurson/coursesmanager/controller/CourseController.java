@@ -28,6 +28,10 @@ public class CourseController {
         model.addAttribute("courses", new Courses());
         model.addAttribute("listCourses", this.courseService.getAllCourses());
         model.addAttribute("listUsers", this.courseService.getAllUsers());
+        model.addAttribute("listStatuses", this.courseService.getAllStatuses());
+        model.addAttribute("listLecturers", this.courseService.getAllLecturers());
+        model.addAttribute("listThemes", this.courseService.getAllThemes());
+        model.addAttribute("listUsers", this.courseService.getAllUsers());
         return "/courses";
     }
 

@@ -42,11 +42,11 @@ public class CourseDAOImpl implements CourseDAO {
     @Override
     public void deleteCourseByIdCourse(Long id) {
         Session session = this.sessionFactory.getCurrentSession();
-        Courses courses = (Courses) session.load(Courses.class, new Long(id));
-        if (courses != null) {
-            session.delete(courses);
+        Courses course = (Courses) session.load(Courses.class, new Long(id));
+        if (course != null) {
+            session.delete(course);
         }
-        logger.info("Course successfully deleted. Course details: " + courses);
+        logger.info("Course successfully deleted. Course details: " + course);
 
     }
 

@@ -4,6 +4,9 @@
     <head>
         <title>Courses</title>
         <style>
+            body{
+                background-color: #eeeeee;
+            }
             h2 {
                 padding-top: 200px;
             }

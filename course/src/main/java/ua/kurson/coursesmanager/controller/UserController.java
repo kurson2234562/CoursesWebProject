@@ -71,10 +71,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/removeUser/{id}", method = RequestMethod.GET)
-    public String removeCourse(@PathVariable("id") Long id, Model model) {
+    public String removeUser(@PathVariable("id") Long id, Model model, Users user) {
         this.userService.deleteUserById(id);
+        model.addAttribute("course", new Courses());
+        model.addAttribute("login", user.getLogin());
+        model.addAttribute("roles", this.userService.getAllRoles());
+        model.addAttribute("listStatuses", this.userService.getAllStatuses());
+        model.addAttribute("listLecturers", this.userService.getAllLecturers());
+        model.addAttribute("listThemes", this.userService.getAllThemes());
         model.addAttribute("listUsers", this.userService.getAllUsers());
-        return "redirect:/courses";
+        model.addAttribute("listCourses", this.userService.getAllCourses());
+        return "/courses";
     }
 
     @RequestMapping(value = "/lockUser/{id}", method = RequestMethod.GET)
