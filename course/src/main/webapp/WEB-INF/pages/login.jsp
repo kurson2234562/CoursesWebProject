@@ -7,6 +7,7 @@
 <style>
     body {
         font-family: "Times New Roman", serif;
+        background-color: #eeeeee;
     }
     table {
         padding-top: 175px;

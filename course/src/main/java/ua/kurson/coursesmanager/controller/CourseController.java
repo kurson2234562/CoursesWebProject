@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ua.kurson.coursesmanager.model.Courses;
+import ua.kurson.coursesmanager.model.Users;
 import ua.kurson.coursesmanager.service.CourseService;
 
 @Controller
@@ -24,9 +25,13 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
-    public String listCourses(Model model) {
-        model.addAttribute("courses", new Courses());
+    public String listCourses(Model model, Users user) {
+        model.addAttribute("course", new Courses());
+        model.addAttribute("login", user.getLogin());
         model.addAttribute("listCourses", this.courseService.getAllCourses());
+        model.addAttribute("listStatuses", this.courseService.getAllStatuses());
+        model.addAttribute("listLecturers", this.courseService.getAllLecturers());
+        model.addAttribute("listThemes", this.courseService.getAllThemes());
         model.addAttribute("listUsers", this.courseService.getAllUsers());
         return "/courses";
     }

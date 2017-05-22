@@ -1,3 +1,4 @@
+DROP SEQUENCE HIBERNATE_SEQUENCE;
 DROP TABLE JOURNAL;
 DROP TABLE STUDENT_COURSE;
 DROP TABLE COURSES;
@@ -69,9 +70,9 @@ CREATE TABLE COURSES (
   start_date  DATE,
   end_date    DATE,
   price       INT,
-  id_theme    INT REFERENCES THEMES (id_theme) ON DELETE CASCADE,
-  id_lecturer INT REFERENCES LECTURERS (id) ON DELETE CASCADE,
-  id_status   INT REFERENCES STATUSES (id_status) ON DELETE CASCADE
+  id_theme    INT REFERENCES THEMES (id_theme) ON DELETE CASCADE NOT NULL,
+  id_lecturer INT REFERENCES LECTURERS (id) ON DELETE CASCADE NOT NULL,
+  id_status   INT REFERENCES STATUSES (id_status) ON DELETE CASCADE NOT NULL
 );
 
 CREATE TABLE STUDENT_COURSE (
@@ -87,6 +88,17 @@ CREATE TABLE JOURNAL (
 
 /*==================================================INSERT QUERIES==================================================*/
 
+
+CREATE SEQUENCE hibernate_sequence
+START WITH     1
+INCREMENT BY   1
+NOCACHE NOCYCLE;
+
+SELECT * FROM JOURNAL_VIEW;
+
+CREATE OR REPLACE VIEW journal_view AS
+  SELECT JOURNAL.id_student_course, id_course, id_student, mark from JOURNAL INNER JOIN STUDENT_COURSE ON JOURNAL.id_student_course = STUDENT_COURSE.id_student_course;
+
 BEGIN
   INSERT INTO ROLES VALUES (0, 'Admin');
   INSERT INTO ROLES VALUES (1, 'Student');
@@ -95,22 +107,22 @@ BEGIN
   INSERT INTO STATES VALUES (0, 'locked');
   INSERT INTO STATES VALUES (1, 'unlocked');
 
-  INSERT INTO USERS VALUES (1, 'root', '63a9f0ea7bb98050796b649e85481845', 'serhii.tatarinov@nure.ua', 0, 1);
-  INSERT INTO USERS VALUES (2, 'student', 'cd73502828457d15655bbd7a63fb0bc8', NULL, 1, 1);
-  INSERT INTO USERS VALUES (3, 'lecturer', 'b06febcfbc00db4f67aed9234e3e52b0', NULL, 2, 1);
-  INSERT INTO USERS VALUES (4, 'admin', '21232f297a57a5a743894a0e4a801fc3', NULL, 0, 1);
-  INSERT INTO USERS VALUES (5, 'qwerty', 'd8578edf8458ce06fbc5bb76a58c5ca4', NULL, 1, 1);
-  INSERT INTO USERS VALUES (6, 'teststudent', '5d9b4ef4d109e9641fcc7b6396d07d1a', NULL, 1, 1);
-  INSERT INTO USERS VALUES (7, 'testlecturer', '6ec781dcf582c92ca02d8e2cfb5a5d9c', NULL, 2, 1);
-  INSERT INTO USERS VALUES (8, '123456', 'e10adc3949ba59abbe56e057f20f883e', NULL, 1, 0);
-  INSERT INTO USERS VALUES (9, 'temp', '3d801aa532c1cec3ee82d87a99fdf63f', NULL, 2, 1);
-  INSERT INTO USERS VALUES (10, 'dmitry', '27183aacdcb689968f322032550ad33d', NULL, 2, 1);
-  INSERT INTO USERS VALUES (11, 'qadev', '900f053814787fc81c1a8d410d4d6aa1', NULL, 1, 1);
-  INSERT INTO USERS VALUES (12, 'sharpbest', 'ad9f9b39da4641b34aa0f122e9bd7ef1', NULL, 1, 1);
-  INSERT INTO USERS VALUES (13, 'jslife', '4763a7704ff43900dc27b260adb31ef0', NULL, 1, 1);
-  INSERT INTO USERS VALUES (14, 'football', '37b4e2d82900d5e94b8da524fbeb33c0', NULL, 2, 1);
-  INSERT INTO USERS VALUES (15, 'sokol', '897d64b89afcee6b32737e9a1706b7fa', NULL, 1, 1);
-  INSERT INTO USERS VALUES (16, 'nika', '15152999e4f8d343989729e38793678e', NULL, 1, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'root', 'root', 'serhii.tatarinov@nure.ua', 0, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'student', 'student', NULL, 1, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'lecturer', 'lecturer', NULL, 2, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'admin', 'admin', NULL, 0, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'qwerty', 'qwerty', NULL, 1, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'teststudent', 'teststudent', NULL, 1, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'testlecturer', 'testlecturer', NULL, 2, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, '123456', '123456', NULL, 1, 0);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'temp', 'temp', NULL, 2, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'dmitry', 'dmitry', NULL, 2, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'qadev', 'qadev', NULL, 1, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'sharpbest', 'sharpbest', NULL, 1, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'jslife', 'jslife', NULL, 1, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'football', 'football', NULL, 2, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'sokol', 'sokol', NULL, 1, 1);
+  INSERT INTO USERS VALUES (hibernate_sequence.nextval, 'nika', 'nika', NULL, 1, 1);
 
   INSERT INTO STATUSES VALUES (1, 'Opened');
   INSERT INTO STATUSES VALUES (2, 'In progress');
@@ -122,51 +134,37 @@ BEGIN
   INSERT INTO THEMES VALUES (3, 'Web developing');
 
   INSERT INTO LECTURERS VALUES (1, 'Kolesnikov', 'Dmitry', 'Olegovich', 10);
-  INSERT INTO LECTURERS VALUES (2, 'Мищеряков', 'Юрий', 'Валентинович', 9);
+  INSERT INTO LECTURERS VALUES (2, 'РњРёС‰РµСЂСЏРєРѕРІ', 'Р®СЂРёР№', 'Р’Р°Р»РµРЅС‚РёРЅРѕРІРёС‡', 9);
   INSERT INTO LECTURERS VALUES (3, 'Ivanov', 'Ivan', 'Ivanovich', 7);
   INSERT INTO LECTURERS VALUES (4, 'Petrov', 'Petr', 'Petrovich', 3);
-  INSERT INTO LECTURERS VALUES (5, 'Адаменко', 'Евгений', 'Игоревич', 14);
+  INSERT INTO LECTURERS VALUES (5, 'РђРґР°РјРµРЅРєРѕ', 'Р•РІРіРµРЅРёР№', 'РРіРѕСЂРµРІРёС‡', 14);
 
-  INSERT INTO ADMINS VALUES (1, 'Татаринов', 'Сергей', 'Вячеславович', 1);
-  INSERT INTO ADMINS VALUES (2, 'Админов', 'Админ', 'Админович', 4);
+  INSERT INTO ADMINS VALUES (1, 'РўР°С‚Р°СЂРёРЅРѕРІ', 'РЎРµСЂРіРµР№', 'Р’СЏС‡РµСЃР»Р°РІРѕРІРёС‡', 1);
+  INSERT INTO ADMINS VALUES (2, 'РђРґРјРёРЅРѕРІ', 'РђРґРјРёРЅ', 'РђРґРјРёРЅРѕРІРёС‡', 4);
 
-  INSERT INTO STUDENTS VALUES (1, 'Шендрик', 'Алексей', '', 11);
+  INSERT INTO STUDENTS VALUES (1, 'РЁРµРЅРґСЂРёРє', 'РђР»РµРєСЃРµР№', '', 11);
   INSERT INTO STUDENTS VALUES (2, 'Pischoha', 'Konstantin', 'Sergeevich', 2);
   INSERT INTO STUDENTS VALUES (3, 'Shylo', 'Rodion', '', 6);
   INSERT INTO STUDENTS VALUES (4, 'Radchenko', 'Vadim', '', 5);
   INSERT INTO STUDENTS VALUES (5, 'Serenko', 'Ivan', '', 8);
-  INSERT INTO STUDENTS VALUES (6, 'Мирошниченко', 'Егор', '', 12);
-  INSERT INTO STUDENTS VALUES (7, 'Кругликов', 'Данил', '', 13);
-  INSERT INTO STUDENTS VALUES (8, 'Соколов', 'Дмитрий', 'Сергеевич', 15);
-  INSERT INTO STUDENTS VALUES (9, 'Перцева', 'Вероника', 'Ильинична', 16);
+  INSERT INTO STUDENTS VALUES (6, 'РњРёСЂРѕС€РЅРёС‡РµРЅРєРѕ', 'Р•РіРѕСЂ', '', 12);
+  INSERT INTO STUDENTS VALUES (7, 'РљСЂСѓРіР»РёРєРѕРІ', 'Р”Р°РЅРёР»', '', 13);
+  INSERT INTO STUDENTS VALUES (8, 'РЎРѕРєРѕР»РѕРІ', 'Р”РјРёС‚СЂРёР№', 'РЎРµСЂРіРµРµРІРёС‡', 15);
+  INSERT INTO STUDENTS VALUES (9, 'РџРµСЂС†РµРІР°', 'Р’РµСЂРѕРЅРёРєР°', 'РР»СЊРёРЅРёС‡РЅР°', 16);
 
   /*id_course name_course duration start_month, start_year id_theme id_lecutrer id_status*/
-  INSERT INTO COURSES VALUES
-    (1, 'Java Web developing', TO_DATE('04-01-2016', 'DD-MM-YYYY'), TO_DATE('28-03-2016', 'DD-MM-YYYY'), 10000, 1, 1,
-     1);
-  INSERT INTO COURSES
-  VALUES (2, 'C# developing', TO_DATE('11-01-2016', 'DD-MM-YYYY'), TO_DATE('04-04-2016', 'DD-MM-YYYY'), 9500, 2, 2, 1);
-  INSERT INTO COURSES
-  VALUES (3, 'ASP.Net', TO_DATE('18-01-2016', 'DD-MM-YYYY'), TO_DATE('11-04-2016', 'DD-MM-YYYY'), 9000, 2, 3, 2);
-  INSERT INTO COURSES VALUES
-    (4, 'JavaScript developing', TO_DATE('25-01-2016', 'DD-MM-YYYY'), TO_DATE('18-04-2016', 'DD-MM-YYYY'), 9750, 3, 3,
-     3);
-  INSERT INTO COURSES VALUES
-    (5, 'HTML+CSS developing', TO_DATE('01-02-2016', 'DD-MM-YYYY'), TO_DATE('25-04-2016', 'DD-MM-YYYY'), 8000, 3, 3, 1);
-  INSERT INTO COURSES VALUES
-    (6, 'Python developing', TO_DATE('08-02-2016', 'DD-MM-YYYY'), TO_DATE('02-05-2016', 'DD-MM-YYYY'), 9250, 3, 2, 4);
-  INSERT INTO COURSES
-  VALUES (7, 'QA testing', TO_DATE('15-02-2016', 'DD-MM-YYYY'), TO_DATE('09-05-2016', 'DD-MM-YYYY'), 10500, 3, 1, 4);
-  INSERT INTO COURSES
-  VALUES (8, 'PHP developing', TO_DATE('22-02-2016', 'DD-MM-YYYY'), TO_DATE('16-03-2016', 'DD-MM-YYYY'), 5500, 3, 1, 3);
-  INSERT INTO COURSES VALUES
-    (9, 'Kotlin developing', TO_DATE('29-02-2016', 'DD-MM-YYYY'), TO_DATE('23-05-2016', 'DD-MM-YYYY'), 3500, 1, 2, 1);
-  INSERT INTO COURSES VALUES
-    (10, 'Groovy developing', TO_DATE('07-03-2018', 'DD-MM-YYYY'), TO_DATE('30-05-2018', 'DD-MM-YYYY'), 6000, 1, 2, 1);
-  INSERT INTO COURSES VALUES
-    (11, 'Scala developing', TO_DATE('14-03-2001', 'DD-MM-YYYY'), TO_DATE('06-06-2016', 'DD-MM-YYYY'), 6500, 1, 5, 2);
-  INSERT INTO COURSES VALUES
-    (12, 'Ruby developing', TO_DATE('21-03-2016', 'DD-MM-YYYY'), TO_DATE('13-06-2017', 'DD-MM-YYYY'), 8000, 3, 5, 1);
+  INSERT INTO COURSES VALUES (1, 'Java Web developing',   TO_DATE('04-01-2016', 'DD-MM-YYYY'), TO_DATE('28-03-2016', 'DD-MM-YYYY'), 10000, 1, 1, 1);
+  INSERT INTO COURSES VALUES (2, 'C# developing',         TO_DATE('11-01-2016', 'DD-MM-YYYY'), TO_DATE('04-04-2016', 'DD-MM-YYYY'), 9500,  2, 2, 1);
+  INSERT INTO COURSES VALUES (3, 'ASP.Net',               TO_DATE('18-01-2016', 'DD-MM-YYYY'), TO_DATE('11-04-2016', 'DD-MM-YYYY'), 9000,  2, 3, 2);
+  INSERT INTO COURSES VALUES (4, 'JavaScript developing', TO_DATE('25-01-2016', 'DD-MM-YYYY'), TO_DATE('18-04-2016', 'DD-MM-YYYY'), 9750,  3, 3, 3);
+  INSERT INTO COURSES VALUES (5, 'HTML+CSS developing',   TO_DATE('01-02-2016', 'DD-MM-YYYY'), TO_DATE('25-04-2016', 'DD-MM-YYYY'), 8000,  3, 3, 1);
+  INSERT INTO COURSES VALUES (6, 'Python developing',     TO_DATE('08-02-2016', 'DD-MM-YYYY'), TO_DATE('02-05-2016', 'DD-MM-YYYY'), 9250,  3, 2, 4);
+  INSERT INTO COURSES VALUES (7, 'QA testing',            TO_DATE('15-02-2016', 'DD-MM-YYYY'), TO_DATE('09-05-2016', 'DD-MM-YYYY'), 10500, 3, 1, 4);
+  INSERT INTO COURSES VALUES (8, 'PHP developing',        TO_DATE('22-02-2016', 'DD-MM-YYYY'), TO_DATE('16-03-2016', 'DD-MM-YYYY'), 5500,  3, 1, 3);
+  INSERT INTO COURSES VALUES (9, 'Kotlin developing',     TO_DATE('29-02-2016', 'DD-MM-YYYY'), TO_DATE('23-05-2016', 'DD-MM-YYYY'), 3500,  1, 2, 1);
+  INSERT INTO COURSES VALUES (10, 'Groovy developing',    TO_DATE('07-03-2018', 'DD-MM-YYYY'), TO_DATE('30-05-2018', 'DD-MM-YYYY'), 6000,  1, 2, 1);
+  INSERT INTO COURSES VALUES (11, 'Scala developing',     TO_DATE('14-03-2001', 'DD-MM-YYYY'), TO_DATE('06-06-2016', 'DD-MM-YYYY'), 6500,  1, 5, 2);
+  INSERT INTO COURSES VALUES (12, 'Ruby developing',      TO_DATE('21-03-2016', 'DD-MM-YYYY'), TO_DATE('13-06-2017', 'DD-MM-YYYY'), 8000,  3, 5, 1);
 
   INSERT INTO STUDENT_COURSE VALUES (1, 2, 1);
   INSERT INTO STUDENT_COURSE VALUES (2, 3, 1);

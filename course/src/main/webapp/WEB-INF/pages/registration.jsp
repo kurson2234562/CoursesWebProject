@@ -9,6 +9,7 @@
     <style>
         body {
             font-family: "Times New Roman", serif;
+            background-color: #eeeeee;
         }
         td {
             padding: 8px;
