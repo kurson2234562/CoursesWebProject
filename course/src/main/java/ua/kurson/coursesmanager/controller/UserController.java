@@ -77,6 +77,13 @@ public class UserController {
         return "redirect:/courses";
     }
 
+    @RequestMapping(value = "/lockUser/{id}", method = RequestMethod.GET)
+    public String lockUser(@PathVariable("id") Long id, Model model){
+        this.userService.lockUserById(id);
+        model.addAttribute("listUsers", this.userService.getAllUsers());
+        return "redirect:/courses";
+    }
+
     @RequestMapping(value = "/loginProcess", method = RequestMethod.GET)
     public String loginProcess(Users login, Model model) {
         Users user = userService.findUserByLogin(login.getLogin());

@@ -222,7 +222,7 @@
                 <th width="60">Email</th>
                 <th width="60">Role</th>
                 <th width="60">State</th>
-                <th width="60">Edit</th>
+                <th width="60">Lock</th>
                 <th width="60">Delete</th>
             </tr>
             <c:forEach items="${listUsers}" var="user">
@@ -233,7 +233,14 @@
                     <td>${user.email}</td>
                     <td>${user.rolesByIdRole.nameRole}</td>
                     <td>${user.statesByIdState.nameState}</td>
-                    <td><a href="<c:url value='/editUser/${user.idUser}'/>">Edit</a></td>
+                    <c:choose>
+                        <c:when test="${user.statesByIdState.idState==1}">
+                            <td><a href="<c:url value='/lockUser/${user.idUser}'/>">Lock</a></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><a href="<c:url value='/lockUser/${user.idUser}'/>">Unlock</a></td>
+                        </c:otherwise>
+                    </c:choose>
                     <td><a href="<c:url value='/removeUser/${user.idUser}'/>">Delete</a></td>
                 </tr>
             </c:forEach>

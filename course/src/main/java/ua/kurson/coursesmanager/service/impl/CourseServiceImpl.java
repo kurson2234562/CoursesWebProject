@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.kurson.coursesmanager.dao.CourseDAO;
-import ua.kurson.coursesmanager.model.Courses;
-import ua.kurson.coursesmanager.model.Users;
+import ua.kurson.coursesmanager.model.*;
 import ua.kurson.coursesmanager.service.CourseService;
 
 @Service
@@ -65,5 +64,23 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public List<Users> getAllUsers() {
         return this.courseDAO.getAllUsers();
+    }
+
+    @Override
+    @Transactional
+    public List<Lecturers> getAllLecturers() {
+        return this.courseDAO.getAllLecturers();
+    }
+
+    @Override
+    @Transactional
+    public List<Statuses> getAllStatuses() {
+        return this.courseDAO.getAllStatuses();
+    }
+
+    @Override
+    @Transactional
+    public List<Themes> getAllThemes() {
+        return this.courseDAO.getAllThemes();
     }
 }

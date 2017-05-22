@@ -2,8 +2,7 @@ package ua.kurson.coursesmanager.service;
 
 import java.util.List;
 
-import ua.kurson.coursesmanager.model.Courses;
-import ua.kurson.coursesmanager.model.Users;
+import ua.kurson.coursesmanager.model.*;
 
 public interface CourseService {
     public void createCourse(Courses courses);
@@ -21,4 +20,10 @@ public interface CourseService {
     public List<Courses> findAllCoursesThatUserNotRegistered(Long id);
 
     public List<Users> getAllUsers();
+
+    public List<Lecturers> getAllLecturers();
+
+    public List<Statuses> getAllStatuses();
+
+    public List<Themes> getAllThemes();
 }

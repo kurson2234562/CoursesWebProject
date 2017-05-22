@@ -64,20 +64,7 @@ public class Users {
 
         Users users = (Users) o;
 
-        if (idUser != users.idUser) {
-            return false;
-        }
-        if (login != null ? !login.equals(users.login) : users.login != null) {
-            return false;
-        }
-        if (password != null ? !password.equals(users.password) : users.password != null) {
-            return false;
-        }
-        if (email != null ? !email.equals(users.email) : users.email != null) {
-            return false;
-        }
-
-        return true;
+        return idUser == users.idUser && (login != null ? login.equals(users.login) : users.login == null) && (password != null ? password.equals(users.password) : users.password == null) && (email != null ? email.equals(users.email) : users.email == null);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class CourseController {
         return "redirect:/courses";
     }
 
-    @RequestMapping("/remove/{id}")
+    @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
     public String removeCourse(@PathVariable("id") Long id, Model model, String login) {
         model.addAttribute("login", login);
         model.addAttribute("courses", new Courses());
@@ -52,14 +52,18 @@ public class CourseController {
         return "redirect:/courses";
     }
 
-    @RequestMapping("edit/{id}")
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
     public String editCourse(@PathVariable("id") Long id, Model model) {
         model.addAttribute("course", this.courseService.getCourseByIdCourse(id));
         model.addAttribute("listCourses", this.courseService.getAllCourses());
+        model.addAttribute("listStatuses", this.courseService.getAllStatuses());
+        model.addAttribute("listLecturers", this.courseService.getAllLecturers());
+        model.addAttribute("listThemes", this.courseService.getAllThemes());
+        model.addAttribute("listUsers", this.courseService.getAllUsers());
         return "/courses";
     }
 
-    @RequestMapping("courseData/{id}")
+    @RequestMapping(value = "courseData/{id}", method = RequestMethod.GET)
     public String courseData(@PathVariable("id") Long id, Model model) {
         model.addAttribute("course", this.courseService.getCourseByIdCourse(id));
 

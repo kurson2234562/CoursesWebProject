@@ -36,17 +36,8 @@ public class Themes {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Themes themes = (Themes) o;
-
-        if (idTheme != themes.idTheme) {
-            return false;
-        }
-        if (nameTheme != null ? !nameTheme.equals(themes.nameTheme) : themes.nameTheme != null) {
-            return false;
-        }
-
-        return true;
+        return idTheme == themes.idTheme && (nameTheme != null ? nameTheme.equals(themes.nameTheme) : themes.nameTheme == null);
     }
 
     @Override

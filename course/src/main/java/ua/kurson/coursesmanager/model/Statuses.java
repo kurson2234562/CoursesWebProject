@@ -18,14 +18,6 @@ public class Statuses {
         this.idStatus = idStatus;
     }
 
-    @Override
-    public String toString() {
-        return "Statuses{" +
-                "idStatus=" + idStatus +
-                ", nameStatus='" + nameStatus + '\'' +
-                '}';
-    }
-
     @Basic
     @Column(name = "NAME_STATUS", nullable = false, length = 25)
     public String getNameStatus() {
@@ -44,17 +36,8 @@ public class Statuses {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Statuses statuses = (Statuses) o;
-
-        if (idStatus != statuses.idStatus) {
-            return false;
-        }
-        if (nameStatus != null ? !nameStatus.equals(statuses.nameStatus) : statuses.nameStatus != null) {
-            return false;
-        }
-
-        return true;
+        return idStatus == statuses.idStatus && (nameStatus != null ? nameStatus.equals(statuses.nameStatus) : statuses.nameStatus == null);
     }
 
     @Override
@@ -62,5 +45,13 @@ public class Statuses {
         int result = (int) (idStatus ^ (idStatus >>> 32));
         result = 31 * result + (nameStatus != null ? nameStatus.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Statuses{" +
+                "idStatus=" + idStatus +
+                ", nameStatus='" + nameStatus + '\'' +
+                '}';
     }
 }

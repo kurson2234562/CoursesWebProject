@@ -27,18 +27,9 @@ public class Roles {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Roles{" +
-                "idRole=" + idRole +
-                ", nameRole='" + nameRole + '\'' +
-                '}';
-    }
-
     @Id
     @Column(name = "ID_ROLE", nullable = false, precision = 0)
     public long getIdRole() {
-        logger.trace("Role is " + idRole);
         return idRole;
     }
 
@@ -64,17 +55,8 @@ public class Roles {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Roles roles = (Roles) o;
-
-        if (idRole != roles.idRole) {
-            return false;
-        }
-        if (nameRole != null ? !nameRole.equals(roles.nameRole) : roles.nameRole != null) {
-            return false;
-        }
-
-        return true;
+        return idRole.equals(roles.idRole) && (nameRole != null ? nameRole.equals(roles.nameRole) : roles.nameRole == null);
     }
 
     @Override
@@ -82,5 +64,13 @@ public class Roles {
         int result = (int) (idRole ^ (idRole >>> 32));
         result = 31 * result + (nameRole != null ? nameRole.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Roles{" +
+                "idRole=" + idRole +
+                ", nameRole='" + nameRole + '\'' +
+                '}';
     }
 }

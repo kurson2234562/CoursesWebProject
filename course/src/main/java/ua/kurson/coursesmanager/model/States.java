@@ -21,6 +21,11 @@ public class States {
         }
     }
 
+    public States(long idState, String nameState) {
+        this.idState = idState;
+        this.nameState = nameState;
+    }
+
     @Id
     @Column(name = "ID_STATE", nullable = false, precision = 0)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,17 +55,8 @@ public class States {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         States states = (States) o;
-
-        if (idState != states.idState) {
-            return false;
-        }
-        if (nameState != null ? !nameState.equals(states.nameState) : states.nameState != null) {
-            return false;
-        }
-
-        return true;
+        return idState.equals(states.idState) && (nameState != null ? nameState.equals(states.nameState) : states.nameState == null);
     }
 
     @Override

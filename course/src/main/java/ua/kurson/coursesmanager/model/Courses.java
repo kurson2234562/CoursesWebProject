@@ -16,20 +16,6 @@ public class Courses {
     private Lecturers lecturersByIdLecturer;
     private Themes themesByIdTheme;
 
-    @Override
-    public String toString() {
-        return "Courses{" +
-                "idCourse=" + idCourse +
-                ", nameCourse='" + nameCourse + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", price=" + price +
-                ", statusesByIdState=" + statusesByIdState +
-                ", lecturersByIdLecturer=" + lecturersByIdLecturer +
-                ", themesByIdTheme=" + themesByIdTheme +
-                '}';
-    }
-
     @Id
     @Column(name = "ID_COURSE", nullable = false, precision = 0)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -122,35 +108,8 @@ public class Courses {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Courses courses = (Courses) o;
-
-        if (idCourse != courses.idCourse) {
-            return false;
-        }
-        if (nameCourse != null ? !nameCourse.equals(courses.nameCourse) : courses.nameCourse != null) {
-            return false;
-        }
-        if (startDate != null ? !startDate.equals(courses.startDate) : courses.startDate != null) {
-            return false;
-        }
-        if (endDate != null ? !endDate.equals(courses.endDate) : courses.endDate != null) {
-            return false;
-        }
-        if (price != null ? !price.equals(courses.price) : courses.price != null) {
-            return false;
-        }
-        if (lecturersByIdLecturer != null ? !lecturersByIdLecturer.equals(courses.lecturersByIdLecturer) : courses.lecturersByIdLecturer != null) {
-            return false;
-        }
-        if (themesByIdTheme != null ? themesByIdTheme.equals(courses.themesByIdTheme) : courses.themesByIdTheme != null) {
-            return false;
-        }
-        if (statusesByIdState != null ? statusesByIdState.equals(courses.statusesByIdState) : courses.statusesByIdState != null) {
-            return false;
-        }
-
-        return true;
+        return idCourse.equals(courses.idCourse) && (nameCourse != null ? nameCourse.equals(courses.nameCourse) : courses.nameCourse == null) && (startDate != null ? startDate.equals(courses.startDate) : courses.startDate == null) && (endDate != null ? endDate.equals(courses.endDate) : courses.endDate == null) && (price != null ? price.equals(courses.price) : courses.price == null) && (lecturersByIdLecturer != null ? lecturersByIdLecturer.equals(courses.lecturersByIdLecturer) : courses.lecturersByIdLecturer == null) && (themesByIdTheme != null ? !themesByIdTheme.equals(courses.themesByIdTheme) : courses.themesByIdTheme == null) && (statusesByIdState != null ? !statusesByIdState.equals(courses.statusesByIdState) : courses.statusesByIdState == null);
     }
 
     @Override
@@ -164,5 +123,19 @@ public class Courses {
         result = 31 * result + (themesByIdTheme != null ? themesByIdTheme.hashCode() : 0);
         result = 31 * result + (statusesByIdState != null ? statusesByIdState.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Courses{" +
+                "idCourse=" + idCourse +
+                ", nameCourse='" + nameCourse + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", price=" + price +
+                ", statusesByIdState=" + statusesByIdState +
+                ", lecturersByIdLecturer=" + lecturersByIdLecturer +
+                ", themesByIdTheme=" + themesByIdTheme +
+                '}';
     }
 }

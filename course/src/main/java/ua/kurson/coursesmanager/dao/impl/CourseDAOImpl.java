@@ -9,8 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import ua.kurson.coursesmanager.dao.CourseDAO;
-import ua.kurson.coursesmanager.model.Courses;
-import ua.kurson.coursesmanager.model.Users;
+import ua.kurson.coursesmanager.model.*;
 
 @Repository
 public class CourseDAOImpl implements CourseDAO {
@@ -90,6 +89,24 @@ public class CourseDAOImpl implements CourseDAO {
             logger.info("Course list: " + user);
         }
         return users;
+    }
+
+    @Override
+    public List<Lecturers> getAllLecturers(){
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.createQuery("from Lecturers").list();
+    }
+
+    @Override
+    public List<Statuses> getAllStatuses(){
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.createQuery("from Statuses").list();
+    }
+
+    @Override
+    public List<Themes> getAllThemes(){
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.createQuery("from Themes").list();
     }
 
     @Override

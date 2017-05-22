@@ -58,23 +58,8 @@ public class Lecturers {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Lecturers lecturers = (Lecturers) o;
-
-        if (id != lecturers.id) {
-            return false;
-        }
-        if (surname != null ? !surname.equals(lecturers.surname) : lecturers.surname != null) {
-            return false;
-        }
-        if (name != null ? !name.equals(lecturers.name) : lecturers.name != null) {
-            return false;
-        }
-        if (patronymic != null ? !patronymic.equals(lecturers.patronymic) : lecturers.patronymic != null) {
-            return false;
-        }
-
-        return true;
+        return id == lecturers.id && (surname != null ? surname.equals(lecturers.surname) : lecturers.surname == null) && (name != null ? name.equals(lecturers.name) : lecturers.name == null) && (patronymic != null ? patronymic.equals(lecturers.patronymic) : lecturers.patronymic == null);
     }
 
     @Override
