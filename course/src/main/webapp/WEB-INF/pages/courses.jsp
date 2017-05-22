@@ -12,7 +12,6 @@
             font-family: "Times New Roman", serif;
             background-color: #eeeeee;
         }
-
         .tg {
             border-collapse: collapse;
             border-spacing: 0;

@@ -92,28 +92,28 @@ public class UserController {
     }
 
     @RequestMapping(value = "/loginProcess", method = RequestMethod.GET)
-    public String loginProcess(Users login, Model model) {
-        Users user = userService.findUserByLogin(login.getLogin());
-        if (user != null && user.getPassword().equals(login.getPassword())) {
+    public String loginProcess(Users user, Model model) {
+        Users findUser = userService.findUserByLogin(user.getLogin());
+        if (findUser != null && findUser.getPassword().equals(user.getPassword())) {
             model.addAttribute("course", new Courses());
-            model.addAttribute("login", user.getLogin());
+            model.addAttribute("login", findUser.getLogin());
             model.addAttribute("roles", this.userService.getAllRoles());
             model.addAttribute("listStatuses", this.userService.getAllStatuses());
             model.addAttribute("listLecturers", this.userService.getAllLecturers());
             model.addAttribute("listThemes", this.userService.getAllThemes());
             model.addAttribute("listUsers", this.userService.getAllUsers());
             model.addAttribute("listCourses", this.userService.getAllCourses());
-            if (user.getRolesByIdRole().getIdRole() == 0) {
-                return "/courses";
-            } else if (user.getRolesByIdRole().getIdRole() == 1) {
-                if (user.getIdUser() == 0) {
-                    Users userByLogin = new UserDAOImpl().findUserByLogin(user.getLogin());
+            if (findUser.getRolesByIdRole().getIdRole() == 0) {
+                return "redirect:/courses";
+            } else if (findUser.getRolesByIdRole().getIdRole() == 1) {
+                if (findUser.getIdUser() == 0) {
+                    Users userByLogin = new UserDAOImpl().findUserByLogin(findUser.getLogin());
                     model.addAttribute("journal",
                             this.userService.getStudentsMarkById(userByLogin.getIdUser()));
                     return "/student";
                 } else {
                     model.addAttribute("journal",
-                            this.userService.getStudentsMarkById(user.getIdUser()));
+                            this.userService.getStudentsMarkById(findUser.getIdUser()));
                     return "/student";
                 }
             } else {
