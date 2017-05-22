@@ -21,8 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void lockUserById(Long id, Long state) {
-        this.userDAO.lockUserById(id, state);
+    public void lockUserById(Long id) {
+        this.userDAO.lockUserById(id);
     }
 
     @Override

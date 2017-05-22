@@ -58,23 +58,8 @@ public class Admins {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Admins admins = (Admins) o;
-
-        if (id != admins.id) {
-            return false;
-        }
-        if (surname != null ? !surname.equals(admins.surname) : admins.surname != null) {
-            return false;
-        }
-        if (name != null ? !name.equals(admins.name) : admins.name != null) {
-            return false;
-        }
-        if (patronymic != null ? !patronymic.equals(admins.patronymic) : admins.patronymic != null) {
-            return false;
-        }
-
-        return true;
+        return id.equals(admins.id) && (surname != null ? surname.equals(admins.surname) : admins.surname == null) && (name != null ? name.equals(admins.name) : admins.name == null) && (patronymic != null ? patronymic.equals(admins.patronymic) : admins.patronymic == null);
     }
 
     @Override

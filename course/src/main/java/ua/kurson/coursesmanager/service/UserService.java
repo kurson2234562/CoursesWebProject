@@ -6,7 +6,7 @@ import ua.kurson.coursesmanager.model.*;
 
 public interface UserService {
 
-    public void lockUserById(Long id, Long state);
+    public void lockUserById(Long id);
 
     public Users findUserByLogin(String login);
 

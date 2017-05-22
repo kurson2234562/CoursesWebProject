@@ -38,17 +38,8 @@ public class Journal {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Journal journal = (Journal) o;
-
-        if (idStudentCourse != journal.idStudentCourse) {
-            return false;
-        }
-        if (mark != journal.mark) {
-            return false;
-        }
-
-        return true;
+        return idStudentCourse == journal.idStudentCourse && mark == journal.mark;
     }
 
     @Override

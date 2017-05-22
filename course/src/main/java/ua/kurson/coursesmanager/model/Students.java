@@ -20,16 +20,6 @@ public class Students {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Students{" +
-                "id=" + id +
-                ", surname='" + surname + '\'' +
-                ", name='" + name + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                '}';
-    }
-
     @Basic
     @Column(name = "SURNAME", nullable = false, length = 30)
     public String getSurname() {
@@ -68,9 +58,7 @@ public class Students {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Students students = (Students) o;
-
         return id == students.id && (surname != null ? surname.equals(students.surname) : students.surname == null) && (name != null ? name.equals(students.name) : students.name == null) && (patronymic != null ? patronymic.equals(students.patronymic) : students.patronymic == null);
     }
 
@@ -81,5 +69,15 @@ public class Students {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (patronymic != null ? patronymic.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Students{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                '}';
     }
 }

@@ -24,8 +24,22 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void lockUserById(Long id, Long state) {
-
+    public void lockUserById(Long id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        List<Users> allUsers = getAllUsers();
+        for (Users userOnList : allUsers) {
+            if (userOnList.getIdUser()==id) {
+                if (userOnList.getStatesByIdState().getIdState()==1){
+                    States statesByIdState = userOnList.getStatesByIdState();
+                    statesByIdState.setIdState(0L);
+                    userOnList.setStatesByIdState(statesByIdState);
+                }else {
+                    States statesByIdState = userOnList.getStatesByIdState();
+                    statesByIdState.setIdState(1L);
+                    userOnList.setStatesByIdState(statesByIdState);
+                }
+            }
+        }
     }
 
     @Override
@@ -44,7 +58,6 @@ public class UserDAOImpl implements UserDAO {
     public Users getUserById(Long id) {
         Session session = this.sessionFactory.getCurrentSession();
         Users user = (Users) session.load(Users.class, id);
-        logger.info("User successfully loaded. User details: " + user);
 
         return user;
     }
@@ -57,14 +70,35 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public void deleteUserById(Long id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Users users = (Users) session.load(Users.class, new Long(id));
+        if (users != null) {
+            session.delete(users);
+        }
+        logger.info("User successfully deleted. Course details: " + users);
+    }
+
+    @Override
+    public void registerUserOnCourse(Long id, Long idCourse) {
+        //ToDO
+    }
+
+    @Override
+    public void setNewPassword(Long id, String password) {
+        //ToDO
+    }
+
+    @Override
+    public List<JournalView> getStudentsMarkById(Long id) {
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.createQuery("from JournalView where student.id=" + id).list();
+    }
+
+    @Override
     public List<Users> getAllUsers() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<Users> usersList = session.createQuery("from Users").list();
-
-        for (Users user : usersList) {
-            logger.info("User list: " + user);
-        }
-        return usersList;
+        return session.createQuery("from Users").list();
     }
 
     @Override
@@ -76,25 +110,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<Roles> getAllRoles() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<Roles> roles = session.createQuery("from Roles").list();
-        return roles;
-    }
-
-    @Override
-    public List<JournalView> getStudentsMarkById(Long id) {
-        Session session = this.sessionFactory.getCurrentSession();
-        List<JournalView> journal = session.createQuery("from JournalView where student.id=" + id).list();
-        return journal;
-    }
-
-    @Override
-    public void deleteUserById(Long id) {
-        Session session = this.sessionFactory.getCurrentSession();
-        Users users = (Users) session.load(Users.class, new Long(id));
-        if (users != null) {
-            session.delete(users);
-        }
-        logger.info("User successfully deleted. Course details: " + users);
+        return session.createQuery("from Roles").list();
     }
 
     @Override
@@ -112,16 +128,6 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<Themes> getAllThemes() {
         Session session = this.sessionFactory.getCurrentSession();
-        return session.createQuery("from Themes ").list();
-    }
-
-    @Override
-    public void registerUserOnCourse(Long id, Long idCourse) {
-        //ToDO
-    }
-
-    @Override
-    public void setNewPassword(Long id, String password) {
-        //ToDO
+        return session.createQuery("from Themes").list();
     }
 }

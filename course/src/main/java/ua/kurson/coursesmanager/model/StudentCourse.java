@@ -9,13 +9,6 @@ public class StudentCourse {
     private Students idStudent;
     private Courses idCourse;
 
-    @Override
-    public String toString() {
-        return "StudentCourse{" +
-                "idStudentCourse=" + idStudentCourse +
-                '}';
-    }
-
     @Id
     @Column(name = "ID_STUDENT_COURSE", nullable = false)
     public long getIdStudentCourse() {
@@ -54,14 +47,19 @@ public class StudentCourse {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         StudentCourse that = (StudentCourse) o;
-
         return idStudentCourse == that.idStudentCourse;
     }
 
     @Override
     public int hashCode() {
         return (int) (idStudentCourse ^ (idStudentCourse >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "StudentCourse{" +
+                "idStudentCourse=" + idStudentCourse +
+                '}';
     }
 }
