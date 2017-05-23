@@ -2,9 +2,16 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+">
 
     <context:component-scan base-package="ua.kurson.coursesmanager"/>
 
@@ -38,15 +45,16 @@
                 <value>ua.kurson.coursesmanager.model.Themes</value>
                 <value>ua.kurson.coursesmanager.model.Users</value>
                 <value>ua.kurson.coursesmanager.model.view.JournalView</value>
+                <value>ua.kurson.coursesmanager.model.view.LecturerView</value>
+                <value>ua.kurson.coursesmanager.model.view.MarksView</value>
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:XE</prop>
                 <prop key="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</prop>
-                <!--<prop key="hibernate.show_sql">true</prop>-->
             </props>
         </property>
     </bean>
@@ -67,6 +75,7 @@
         <property name="userDAO" ref="userDao"/>
     </bean>
 
+
     <bean id="studentDao" class="ua.kurson.coursesmanager.dao.impl.StudentDAOImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
@@ -74,6 +83,13 @@
         <property name="studentDAO" ref="studentDao"/>
     </bean>
 
+
+    <bean id="lecturerDao" class="ua.kurson.coursesmanager.dao.impl.LecturerDAOImpl">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="lecturerService" class="ua.kurson.coursesmanager.service.impl.LecturerServiceImpl">
+        <property name="lecturerDAO" ref="lecturerDao"/>
+    </bean>
 
     <context:component-scan base-package="ua.kurson.coursesmanager"/>
 

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import ua.kurson.coursesmanager.dao.LecturerDAO;
 import ua.kurson.coursesmanager.model.Lecturers;
+import ua.kurson.coursesmanager.model.Users;
+import ua.kurson.coursesmanager.model.view.LecturerView;
+import ua.kurson.coursesmanager.model.view.MarksView;
 
 @Repository
 public class LecturerDAOImpl implements LecturerDAO {
@@ -28,7 +31,7 @@ public class LecturerDAOImpl implements LecturerDAO {
         Session session = this.sessionFactory.getCurrentSession();
         List<Lecturers> lecturersList = session.createQuery("from Lecturers ").list();
 
-        for (Lecturers lecturers: lecturersList) {
+        for (Lecturers lecturers : lecturersList) {
             logger.info("Lecturers list: " + lecturers);
         }
 
@@ -59,5 +62,36 @@ public class LecturerDAOImpl implements LecturerDAO {
         Session session = this.sessionFactory.getCurrentSession();
         session.update(lecturers);
         logger.info("Lecturer successfully update. Lecturer details: " + lecturers);
+    }
+
+    @Override
+    public List<LecturerView> findNotMarkedStudentsOnCourseByLecturersId(Long idLecturer) {
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.createQuery("from LecturerView where lecturerIdUser=" + idLecturer).list();
+    }
+
+    @Override
+    public List<MarksView> findMarkedStudentsOnCourseByLecturersId(Long idLecturer) {
+        Session session = this.sessionFactory.getCurrentSession();
+        System.out.println(session.createQuery("from MarksView where id="+idLecturer).list());
+        return session.createQuery("from MarksView where id=" + idLecturer).list();
+    }
+
+    @Override
+    public Users findUserByLogin(String login) {
+        Session session = this.sessionFactory.getCurrentSession();
+        List<Users> allUsers = getAllUsers();
+        for (Users userOnList : allUsers) {
+            if (userOnList.getLogin().equals(login)) {
+                return userOnList;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Users> getAllUsers() {
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.createQuery("from Users").list();
     }
 }

@@ -108,7 +108,7 @@
     <h1>Add a Course</h1>
     <c:url var="addAction" value="/courses/add"/>
 
-    <form:form action="${addAction}" commandName="course">
+    <form:form action="/courses/add/" commandName="course">
         <table id="addCourse">
             <c:if test="${!empty courses.nameCourse}">
                 <tr>
@@ -160,7 +160,7 @@
                     </form:label>
                 </td>
                 <td>
-                    <form:input path="price" required="required"/>
+                    <form:input path="price" required="required" type="number"/>
                 </td>
             </tr>
             <tr>
