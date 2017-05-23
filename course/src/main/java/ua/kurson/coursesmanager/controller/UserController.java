@@ -117,7 +117,7 @@ public class UserController {
                     return "/student";
                 }
             } else {
-                return "/lecturer";
+                return "redirect:/lecturer";
             }
         } else {
             return "/login";

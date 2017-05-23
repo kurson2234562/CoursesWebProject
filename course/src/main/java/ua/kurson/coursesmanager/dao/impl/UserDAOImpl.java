@@ -27,16 +27,14 @@ public class UserDAOImpl implements UserDAO {
     public void lockUserById(Long id) {
         Session session = this.sessionFactory.getCurrentSession();
         List<Users> allUsers = getAllUsers();
-        for (Users userOnList : allUsers) {
-            if (userOnList.getIdUser()==id) {
-                if (userOnList.getStatesByIdState().getIdState()==1){
-                    States statesByIdState = userOnList.getStatesByIdState();
-                    statesByIdState.setIdState(0L);
-                    userOnList.setStatesByIdState(statesByIdState);
+        for (Users user : allUsers) {
+            if (user.getIdUser()==id) {
+                if (user.getStatesByIdState().getIdState()==1){
+                    user.setStatesByIdState(new States(0, "locked"));
+                    session.save(user);
                 }else {
-                    States statesByIdState = userOnList.getStatesByIdState();
-                    statesByIdState.setIdState(1L);
-                    userOnList.setStatesByIdState(statesByIdState);
+                    user.setStatesByIdState(new States(1, "unlocked"));
+                    session.save(user);
                 }
             }
         }

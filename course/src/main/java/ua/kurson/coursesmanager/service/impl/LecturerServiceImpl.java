@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ua.kurson.coursesmanager.dao.LecturerDAO;
 import ua.kurson.coursesmanager.model.Lecturers;
+import ua.kurson.coursesmanager.model.Users;
+import ua.kurson.coursesmanager.model.view.LecturerView;
+import ua.kurson.coursesmanager.model.view.MarksView;
 import ua.kurson.coursesmanager.service.LecturerService;
 
 @Service
@@ -46,5 +49,23 @@ public class LecturerServiceImpl implements LecturerService {
     @Transactional
     public void updateLecturer(Lecturers lecturers) {
         this.lecturerDAO.updateLecturer(lecturers);
+    }
+
+    @Override
+    @Transactional
+    public List<LecturerView> findNotMarkedStudentsOnCourseByLecturersId(Long idLecturer) {
+        return this.lecturerDAO.findNotMarkedStudentsOnCourseByLecturersId(idLecturer);
+    }
+
+    @Override
+    @Transactional
+    public List<MarksView> findMarkedStudentsOnCourseByLecturersId(Long idLecturer) {
+        return this.lecturerDAO.findMarkedStudentsOnCourseByLecturersId(idLecturer);
+    }
+
+    @Override
+    @Transactional
+    public Users findUserByLogin(String login) {
+        return this.lecturerDAO.findUserByLogin(login);
     }
 }

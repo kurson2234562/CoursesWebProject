@@ -26,8 +26,8 @@ CREATE TABLE USERS (
   login    VARCHAR(30) NOT NULL UNIQUE,
   password VARCHAR(40) NOT NULL,
   email    VARCHAR(70),
-  id_role  INT REFERENCES ROLES (id_role) ON DELETE CASCADE,
-  id_state INT REFERENCES STATES (id_state) ON DELETE CASCADE
+  id_role  INT REFERENCES ROLES (id_role),
+  id_state INT REFERENCES STATES (id_state)
 );
 
 CREATE TABLE THEMES (
@@ -88,13 +88,28 @@ CREATE TABLE JOURNAL (
 
 /*==================================================INSERT QUERIES==================================================*/
 
+create or REPLACE VIEW lecturer_view as
+  select STUDENTS.id_user, name_course, STUDENTS.surname, STUDENTS.name, STUDENTS.patronymic, LECTURERS.id_user as lecturer_id_user from LECTURERS
+    INNER JOIN COURSES ON LECTURERS.id = COURSES.id_lecturer
+    INNER JOIN STUDENT_COURSE ON COURSES.id_course = STUDENT_COURSE.id_course
+    INNER JOIN STUDENTS ON STUDENT_COURSE.id_student = STUDENTS.id where id_status=2;
 
 CREATE SEQUENCE hibernate_sequence
 START WITH     1
 INCREMENT BY   1
 NOCACHE NOCYCLE;
 
-SELECT * FROM JOURNAL_VIEW;
+SELECT * FROM MARKS_VIEW;
+
+CREATE OR REPLACE VIEW MARKS_VIEW AS
+  SELECT LECTURERS.id_user, name_course, start_date, end_date, STUDENTS.surname, STUDENTS.name, STUDENTS.patronymic, mark FROM LECTURERS
+    INNER JOIN COURSES ON LECTURERS.id = COURSES.id_lecturer
+    INNER JOIN STUDENT_COURSE ON COURSES.id_course = STUDENT_COURSE.id_course
+    INNER JOIN JOURNAL ON STUDENT_COURSE.id_student_course = JOURNAL.id_student_course
+    INNER JOIN STUDENTS ON STUDENT_COURSE.id_student = STUDENTS.id
+  WHERE id_status=4;
+
+select * from Marks_View where id_user=9;
 
 CREATE OR REPLACE VIEW journal_view AS
   SELECT JOURNAL.id_student_course, id_course, id_student, mark from JOURNAL INNER JOIN STUDENT_COURSE ON JOURNAL.id_student_course = STUDENT_COURSE.id_student_course;

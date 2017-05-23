@@ -48,11 +48,11 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/remove/{id}", method = RequestMethod.GET)
-    public String removeCourse(@PathVariable("id") Long id, Model model, String login) {
-        model.addAttribute("login", login);
+    public String removeCourse(@PathVariable("id") Long id, Model model) {
         model.addAttribute("courses", new Courses());
         model.addAttribute("listCourses", this.courseService.getAllCourses());
         model.addAttribute("listUsers", this.courseService.getAllUsers());
+        this.courseService.deleteCourseByIdCourse(id);
         //ToDo: do not delete redirect!
         return "redirect:/courses";
     }
