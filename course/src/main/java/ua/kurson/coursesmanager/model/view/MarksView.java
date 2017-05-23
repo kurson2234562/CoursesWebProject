@@ -11,6 +11,10 @@ import org.hibernate.annotations.Proxy;
 @Proxy(lazy = false)
 public class MarksView {
     @Id
+    @Column(name="id_student_course")
+    private long idStudentCourse;
+
+    @Basic
     @Column(name = "id_user", nullable = false, precision = 0)
     private long idLecturer;
 

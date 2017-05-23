@@ -73,8 +73,7 @@ public class LecturerDAOImpl implements LecturerDAO {
     @Override
     public List<MarksView> findMarkedStudentsOnCourseByLecturersId(Long idLecturer) {
         Session session = this.sessionFactory.getCurrentSession();
-        System.out.println(session.createQuery("from MarksView where id="+idLecturer).list());
-        return session.createQuery("from MarksView where id=" + idLecturer).list();
+        return session.createQuery("from MarksView where idLecturer=" + idLecturer).list();
     }
 
     @Override

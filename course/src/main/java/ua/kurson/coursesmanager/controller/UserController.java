@@ -94,6 +94,9 @@ public class UserController {
     @RequestMapping(value = "/loginProcess", method = RequestMethod.GET)
     public String loginProcess(Users user, Model model) {
         Users findUser = userService.findUserByLogin(user.getLogin());
+        if (findUser.getStatesByIdState().getIdState()==0){
+            return "/error_page";
+        }
         if (findUser != null && findUser.getPassword().equals(user.getPassword())) {
             model.addAttribute("course", new Courses());
             model.addAttribute("login", findUser.getLogin());
