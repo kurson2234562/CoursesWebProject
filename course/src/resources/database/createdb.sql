@@ -1,3 +1,5 @@
+/*==================================================Drop all tables==================================================*/
+
 DROP SEQUENCE HIBERNATE_SEQUENCE;
 DROP TABLE JOURNAL;
 DROP TABLE STUDENT_COURSE;
@@ -10,6 +12,8 @@ DROP TABLE THEMES;
 DROP TABLE USERS;
 DROP TABLE STATES;
 DROP TABLE ROLES;
+
+/*==================================================Creating tables==================================================*/
 
 CREATE TABLE ROLES (
   id_role   INT PRIMARY KEY,
@@ -86,33 +90,14 @@ CREATE TABLE JOURNAL (
   mark              INT NOT NULL
 );
 
-/*==================================================INSERT QUERIES==================================================*/
-
-create or REPLACE VIEW lecturer_view as
-  select STUDENTS.id_user, name_course, STUDENTS.surname, STUDENTS.name, STUDENTS.patronymic, LECTURERS.id_user as lecturer_id_user from LECTURERS
-    INNER JOIN COURSES ON LECTURERS.id = COURSES.id_lecturer
-    INNER JOIN STUDENT_COURSE ON COURSES.id_course = STUDENT_COURSE.id_course
-    INNER JOIN STUDENTS ON STUDENT_COURSE.id_student = STUDENTS.id where id_status=2;
+/*==================================================Creating sequences==================================================*/
 
 CREATE SEQUENCE hibernate_sequence
 START WITH     1
 INCREMENT BY   1
 NOCACHE NOCYCLE;
 
-SELECT * FROM MARKS_VIEW;
-
-CREATE OR REPLACE VIEW MARKS_VIEW AS
-  SELECT LECTURERS.id_user, name_course, start_date, end_date, STUDENTS.surname, STUDENTS.name, STUDENTS.patronymic, mark FROM LECTURERS
-    INNER JOIN COURSES ON LECTURERS.id = COURSES.id_lecturer
-    INNER JOIN STUDENT_COURSE ON COURSES.id_course = STUDENT_COURSE.id_course
-    INNER JOIN JOURNAL ON STUDENT_COURSE.id_student_course = JOURNAL.id_student_course
-    INNER JOIN STUDENTS ON STUDENT_COURSE.id_student = STUDENTS.id
-  WHERE id_status=4;
-
-select * from Marks_View where id_user=9;
-
-CREATE OR REPLACE VIEW journal_view AS
-  SELECT JOURNAL.id_student_course, id_course, id_student, mark from JOURNAL INNER JOIN STUDENT_COURSE ON JOURNAL.id_student_course = STUDENT_COURSE.id_student_course;
+/*==================================================INSERT QUERIES==================================================*/
 
 BEGIN
   INSERT INTO ROLES VALUES (0, 'Admin');
@@ -218,3 +203,26 @@ BEGIN
   INSERT INTO JOURNAL VALUES (15, 85);
 
 END;
+
+/*==================================================Creating views==================================================*/
+
+CREATE OR REPLACE VIEW lecturer_view as
+  select STUDENTS.id_user, name_course, STUDENTS.surname, STUDENTS.name, STUDENTS.patronymic, LECTURERS.id_user as lecturer_id_user
+  FROM LECTURERS
+    INNER JOIN COURSES ON LECTURERS.id = COURSES.id_lecturer
+    INNER JOIN STUDENT_COURSE ON COURSES.id_course = STUDENT_COURSE.id_course
+    INNER JOIN STUDENTS ON STUDENT_COURSE.id_student = STUDENTS.id where id_status=2;
+
+CREATE OR REPLACE VIEW MARKS_VIEW AS
+  SELECT JOURNAL.id_student_course, name_course, start_date, end_date, STUDENTS.surname, STUDENTS.name, STUDENTS.patronymic, mark, LECTURERS.id_user
+  FROM LECTURERS
+    INNER JOIN COURSES ON LECTURERS.id = COURSES.id_lecturer
+    INNER JOIN STUDENT_COURSE ON COURSES.id_course = STUDENT_COURSE.id_course
+    INNER JOIN JOURNAL ON STUDENT_COURSE.id_student_course = JOURNAL.id_student_course
+    INNER JOIN STUDENTS ON STUDENT_COURSE.id_student = STUDENTS.id
+  WHERE id_status=4;
+
+CREATE OR REPLACE VIEW journal_view AS
+  SELECT JOURNAL.id_student_course, id_course, id_student, mark
+  from JOURNAL
+    INNER JOIN STUDENT_COURSE ON JOURNAL.id_student_course = STUDENT_COURSE.id_student_course;
